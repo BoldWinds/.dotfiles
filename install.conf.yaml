@@ -5,14 +5,18 @@
 
 - clean: ["~"]
 
+- shell:
+    - sh -c 'if [ ! -d "$HOME/.oh-my-zsh" ]; then sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; fi'
+
 - link:
     ~/.vimrc: vimrc
     ~/.tmux.conf: tmux.conf
     ~/.gitconfig: gitconfig
     ~/.gitignore_global: gitignore_global
-
-- create:
-    - ~/.vim/undo-history
+    ~/.p10k.zsh: p10k.zsh
+    ~/.shell: shell
+    ~/.zsh: zsh
+    ~/.zshrc: zshrc
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
