@@ -3,6 +3,8 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[core]
+	excludesfile = ~/.gitignore_global
 [user]
 	name = Bowen Liu
 	email = 88589340+BoldWinds@users.noreply.github.com
