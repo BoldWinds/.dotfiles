@@ -6,8 +6,8 @@
 - clean: ["~"]
 
 - shell:
-    - sudo apt install zsh
-    - sh -c 'if [ ! -d "$HOME/.oh-my-zsh" ]; then sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"; fi'
+    - if ! command -v zsh >/dev/null; then echo "zsh is not installed. Please install it manually and re-run."; exit 1; fi
+    - sh -c 'if [ ! -d "$HOME/.oh-my-zsh" ]; then sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"; fi'
 
 - link:
     ~/.vimrc: vimrc
