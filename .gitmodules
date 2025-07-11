@@ -1,13 +1,13 @@
 [submodule ".dotbot"]
 	path = .dotbot
-	url = https://github.com/anishathalye/dotbot.git
+	url = https://gitee.com/LBWyes/dotbot
 	ignore = dirty
 [submodule "zsh/themes/powerlevel10k"]
 	path = zsh/themes/powerlevel10k
-	url = https://github.com/romkatv/powerlevel10k.git
+	url = https://gitee.com/LBWyes/powerlevel10k
 [submodule "zsh/plugins/zsh-syntax-highlighting"]
 	path = zsh/plugins/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+	url = https://gitee.com/LBWyes/zsh-syntax-highlighting
 [submodule "zsh/plugins/zsh-completions"]
 	path = zsh/plugins/zsh-completions
-	url = https://github.com/zsh-users/zsh-completions.git
+	url = https://gitee.com/LBWyes/zsh-completions

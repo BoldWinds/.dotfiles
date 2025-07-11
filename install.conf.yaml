@@ -2,22 +2,68 @@
     link:
       create: true
       relink: true
+      force: true # 强制覆盖目标位置的文件
+    shell:
+      stdout: true # 默认显示shell命令的输出
+      stderr: true # 默认显示shell命令的错误
 
-- clean: ["~"]
+- clean:
+    ~/:
+      force: true # 清理时强制删除，即使目标不是符号链接
 
+# --- 核心依赖检查 ---
 - shell:
-    - if ! command -v zsh >/dev/null; then echo "zsh is not installed. Please install it manually and re-run."; exit 1; fi
-    - sh -c 'if [ ! -d "$HOME/.oh-my-zsh" ]; then sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"; fi'
+    - description: "Checking for core dependencies (git, curl, zsh)..."
+      command: |
+        _all_found=true
+        for cmd in git curl zsh; do
+          if ! command -v $cmd >/dev/null 2>&1; then
+            echo "Error: '$cmd' is not installed. Please install it first."
+            _all_found=false
+          fi
+        done
+        if ! $_all_found; then
+          exit 1
+        fi
+      quiet: true # 只在出错时显示信息
 
+# --- Oh My Zsh 和插件安装 ---
+- shell:
+    - description: "Installing Oh My Zsh..."
+      command: 'if [ ! -d "$HOME/.oh-my-zsh" ]; then sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended; fi'
+# --- 链接配置文件 ---
 - link:
+    ~/.zshrc:
+      path: zshrc
+    ~/.p10k.zsh: p10k.zsh
     ~/.vimrc: vimrc
     ~/.tmux.conf: tmux.conf
     ~/.gitconfig: gitconfig
-    ~/.gitignore_global: gitignore_global
-    ~/.p10k.zsh: p10k.zsh
-    ~/.shell: shell
-    ~/.zsh: zsh
-    ~/.zshrc: zshrc
-
+    ~/.gitignore_global:
+      path: gitignore_global
 - shell:
-  - [git submodule update --init --recursive, Installing submodules]
+    - description: "Configuring global gitignore..."
+      command: "git config --global core.excludesfile ~/.gitignore_global"
+
+# --- 初始化 Git 子模块 ---
+- shell:
+    - description: "Updating Git submodules..."
+      command: "git submodule update --init --recursive"
+      quiet: true
+
+# --- 设置 Zsh 为默认 Shell ---
+- shell:
+    - description: "Setting Zsh as the default shell..."
+      command: |
+        if [ "$SHELL" != "$(which zsh)" ]; then
+          if grep -q "$(which zsh)" /etc/shells; then
+            echo "Attempting to set zsh as default shell. You might be prompted for your password."
+            chsh -s $(which zsh)
+          else
+            echo "Warning: $(which zsh) is not in /etc/shells."
+            echo "Please add it manually (e.g., sudo sh -c 'echo $(which zsh) >> /etc/shells') and then run 'chsh -s $(which zsh)'."
+          fi
+        else
+          echo "Zsh is already the default shell."
+        fi
+      quiet: true
