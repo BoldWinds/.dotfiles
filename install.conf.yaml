@@ -33,6 +33,8 @@
       command: 'if [ ! -d "$HOME/.oh-my-zsh" ]; then sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" "" --unattended; fi'
 # --- 链接配置文件 ---
 - link:
+    ~/.zsh: zsh
+    ~/.shell: shell
     ~/.zshrc:
       path: zshrc
     ~/.p10k.zsh: p10k.zsh
