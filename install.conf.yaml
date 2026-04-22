@@ -43,6 +43,14 @@
     ~/.gitconfig: gitconfig
     ~/.gitignore_global:
       path: gitignore_global
+    ~/.claude/CLAUDE.md:
+      path: claude/CLAUDE.md
+    ~/.claude/agents:
+      path: claude/agents
+    ~/.claude/skills:
+      path: claude/skills
+    ~/.claude/settings.json:
+      path: claude/settings.json
 - shell:
     - description: "Configuring global gitignore..."
       command: "git config --global core.excludesfile ~/.gitignore_global"
